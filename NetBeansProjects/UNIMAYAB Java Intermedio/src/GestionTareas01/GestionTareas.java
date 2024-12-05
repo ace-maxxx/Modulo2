@@ -27,7 +27,7 @@ public class GestionTareas extends JFrame implements ActionListener {
     private JButton botonAgregar, botonEditar, botonEliminar, botonCompletar;
 
     private List<Tarea> tareas;
-    private Map<String, Lista<Tarea>> tareasPorCategoria;
+    private Map<String, List<Tarea>> tareasPorCategoria;
 
     // Crear constructor de la clase GestionTareas
     public GestionTareas() {
@@ -124,12 +124,6 @@ public class GestionTareas extends JFrame implements ActionListener {
         setVisible(true);
 
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
 
     // Metodos para agregar, editar, eliminar y completar tareas:
     private void agregarTarea(ActionEvent e) {
@@ -246,6 +240,50 @@ public class GestionTareas extends JFrame implements ActionListener {
 
     }
 
+    // Codigo para mostrar tareas por categoria
+    private void mostrarTareasPorCategoria(String categoria) {
+        modeloLista.clear();
+        modeloTabla.setRowCount(0);
+        List<Tarea> tareasEnCategoria = tareasPorCategoria.get(categoria);
+        if (tareasEnCategoria != null) {
+            for (Tarea tarea : tareasEnCategoria) {
+                modeloLista.addElement(tarea.getNombre());
+                modeloTabla.addRow(new Object[]{tarea.getNombre(), tarea.getDescripcion(), tarea.getPrioridad(), tarea.getEstado()});
+            }
+        }
+    }
+
+    // Codigo para mostrar todas las tareas
+    private void mostrarTodasLasTareas() {
+        modeloLista.clear();
+        modeloTabla.setRowCount(0);
+        for (Tarea tarea : tareas) {
+            modeloLista.addElement(tarea.getNombre());
+            modeloTabla.addRow(new Object[]{tarea.getNombre(), tarea.getDescripcion(), tarea.getPrioridad(), tarea.getEstado()});
+        }
+    }
+
+    // Codigo para actualizar la lista de tareas
+    private void actualizarListaTareas() {
+        modeloLista.clear();
+        for (Tarea tarea : tareas) {
+            modeloLista.addElement(tarea.getNombre());
+        }
+    }
+
+    // Codigo para actualizar la tabla de tareas
+    private void actualizarTablaTareas() {
+        modeloTabla.setRowCount(0);
+        for (Tarea tarea : tareas) {
+            modeloTabla.addRow(new Object[]{tarea.getNombre(), tarea.getDescripcion(), tarea.getPrioridad(), tarea.getEstado()});
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
     // Main
     public static void main(String[] args) {
         new GestionTareas();
@@ -267,6 +305,13 @@ class Tarea {
         this.descripcion = descripcion;
         this.prioridad = prioridad;
         this.estado = estado;
+        this.categoria = categoria;
+    }
+
+    public Tarea(String nombre, String descripcion, String prioridad, String categoria) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.prioridad = prioridad;
         this.categoria = categoria;
     }
 
